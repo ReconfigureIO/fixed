@@ -1,0 +1,29 @@
+package main
+
+import (
+	"github.com/Reconfigure.io/fixed"
+)
+
+func Top(
+	a int32,
+	b int32,
+	addr uintptr,
+
+	// The second set of arguments will be the ports for interacting with memory
+	memReadAddr chan<- axiprotocol.Addr,
+	memReadData <-chan axiprotocol.ReadData,
+
+	memWriteAddr chan<- axiprotocol.Addr,
+	memWriteData chan<- axiprotocol.WriteData,
+	memWriteResp <-chan axiprotocol.WriteResp) {
+
+	// Since we're not reading anything from memory, disable those reads
+	go axiprotocol.ReadDisable(memReadAddr, memReadData)
+
+	// Calculate the value
+	val := fixed.Int26_6(a).Mul(fixed.Int26_6(b))
+
+	// Write it back to the pointer the host requests
+	aximemory.WriteUInt32(
+		memWriteAddr, memWriteData, memWriteResp, false, addr, uint32(val))
+}
