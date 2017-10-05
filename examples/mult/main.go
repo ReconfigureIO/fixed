@@ -1,9 +1,16 @@
 package main
 
 import (
+	// Import the entire framework (including bundled verilog)
+	_ "sdaccel"
+
+	aximemory "axi/memory"
+	axiprotocol "axi/protocol"
+
 	"github.com/Reconfigure.io/fixed"
 )
 
+// A small kernel to test our fixed library
 func Top(
 	a int32,
 	b int32,
