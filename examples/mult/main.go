@@ -7,7 +7,7 @@ import (
 	aximemory "axi/memory"
 	axiprotocol "axi/protocol"
 
-	"github.com/Reconfigure.io/fixed"
+	"github.com/ReconfigureIO/fixed"
 )
 
 // A small kernel to test our fixed library
