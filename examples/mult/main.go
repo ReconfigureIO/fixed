@@ -1,9 +1,16 @@
 package main
 
 import (
-	"github.com/Reconfigure.io/fixed"
+	// Import the entire framework (including bundled verilog)
+	_ "sdaccel"
+
+	aximemory "axi/memory"
+	axiprotocol "axi/protocol"
+
+	"github.com/ReconfigureIO/fixed"
 )
 
+// A small kernel to test our fixed library
 func Top(
 	a int32,
 	b int32,
@@ -20,8 +27,11 @@ func Top(
 	// Since we're not reading anything from memory, disable those reads
 	go axiprotocol.ReadDisable(memReadAddr, memReadData)
 
+	// cast to Int26_6
+	a_fixed := fixed.Int26_6(a)
+
 	// Calculate the value
-	val := fixed.Int26_6(a).Mul(fixed.Int26_6(b))
+	val := a_fixed.Mul(fixed.Int26_6(b))
 
 	// Write it back to the pointer the host requests
 	aximemory.WriteUInt32(
