@@ -27,9 +27,11 @@ func Top(
 	// Since we're not reading anything from memory, disable those reads
 	go axiprotocol.ReadDisable(memReadAddr, memReadData)
 
+	// convert to fixed point
+	a_fixed := fixed.I26(a)
+
 	// Calculate the value
-	pre_val := fixed.Int26_6(a)
-	val := pre_val.Mul(fixed.Int26_6(b))
+	val := a_fixed.Mul(fixed.I26(b))
 
 	// Write it back to the pointer the host requests
 	aximemory.WriteUInt32(
