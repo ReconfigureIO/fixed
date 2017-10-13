@@ -6,7 +6,7 @@ import (
 	"os"
 	"xcl"
 
-	"github.com/Reconfigure.io/fixed"
+	"github.com/ReconfigureIO/fixed"
 )
 
 func main() {
