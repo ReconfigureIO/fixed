@@ -12,9 +12,10 @@ PROJECT_URL := "https://github.com/ReconfigureIO/$(NAME)"
 
 test:
 	go build fixed.go
+	go test github.com/ReconfigureIO/fixed/host
 
 vendor: examples/mult/vendor/github.com/ReconfigureIO/$(NAME)/fixed.go
 
 examples/mult/vendor/github.com/ReconfigureIO/$(NAME)/fixed.go: fixed.go
 	mkdir -p examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
-	cp fixed.go examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
+	cp fixed.go host examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
