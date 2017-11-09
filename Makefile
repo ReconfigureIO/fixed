@@ -18,4 +18,4 @@ vendor: examples/mult/vendor/github.com/ReconfigureIO/$(NAME)/fixed.go
 
 examples/mult/vendor/github.com/ReconfigureIO/$(NAME)/fixed.go: fixed.go
 	mkdir -p examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
-	cp fixed.go host examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
+	cp -R fixed.go host examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
