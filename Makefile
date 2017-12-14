@@ -17,7 +17,7 @@ test:
 vendor: examples/mult/vendor/github.com/ReconfigureIO/$(NAME)/fixed.go
 
 install: vendor
-	cd examples/md5 && glide install
+	cd examples/mult && glide install
 
 examples/mult/vendor/github.com/ReconfigureIO/$(NAME)/fixed.go: fixed.go
 	mkdir -p examples/mult/vendor/github.com/ReconfigureIO/$(NAME)
