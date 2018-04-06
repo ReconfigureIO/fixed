@@ -38,10 +38,9 @@ func (x Int26_6) Add(y Int26_6) Int26_6 {
 }
 
 // The product of x * y.
+// Uses native Verilog implementation.
 // Please note there is no overflow detection at this point.
-func (x Int26_6) Mul(y Int26_6) Int26_6 {
-	return Int26_6((int64(x)*int64(y) + 1<<5) >> 6)
-}
+func (x Int26_6) Mul(y Int26_6) Int26_6
 
 type Int52_12 int64
 
