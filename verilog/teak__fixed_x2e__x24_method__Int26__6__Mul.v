@@ -14,7 +14,7 @@
 `timescale 1ns/1ps
 
 module teak__fixed_x2e__x24_method__Int26__6__Mul
-  (goValid, goStop, doneValid, doneStop, operandsReady, operandsData, 
+  (goValid, goStop, doneValid, doneStop, operandsReady, operandsData,
   operandsStop, resultReady, resultData, resultStop, clk, srst);
 
 // Specify function go/done control signals.
@@ -22,7 +22,7 @@ input  goValid;
 output goStop;
 output doneValid;
 input  doneStop;
-  
+
 // Specify operands input signals.
 input        operandsReady;
 input [63:0] operandsData;
@@ -230,12 +230,11 @@ end
 always @(resultDataHigh_q, resultDataLow_q, outputCmdP3_q, partialMultP3_q)
 begin
 
-  // Implement partial term addition. Note that since the output is truncated
-  // to 32 bits, the 1,1 partial does not need to be calculated. The least
-  // significant partial products are calculated first, which allows the
-  // accumulator to be implemented as a shift register with constant alignment
-  // to the multiplier output. This allows the output adder and registers of
-  // the Xilinx DSP block to be used for holding the result.
+  // Implement partial term addition. The least significant partial products
+  // are calculated first, which allows the accumulator to be implemented as a
+  // shift register with constant alignment to the multiplier output. This
+  // allows the output adder and registers of the Xilinx DSP block to be used
+  // for holding the result.
   case (outputCmdP3_q)
     OutputInit :
     begin
