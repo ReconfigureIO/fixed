@@ -263,7 +263,7 @@ begin
     OutputInit :
     begin
       resultDataHigh_d = 36'd32;
-      resultDataLow_d = 17'd0;
+      resultDataLow_d = 34'd0;
     end
     OutputShiftUpdate :
     begin
