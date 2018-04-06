@@ -47,14 +47,16 @@ wire multiplyStop;
 reg  inputBlocked;
 
 // Specify input state machine state space.
-parameter [1:0]
+parameter [2:0]
   Partial00Idle = 0,
   Partial01 = 1,
   Partial10 = 2,
-  Partial11 = 3;
+  Partial11 = 3,
+  Partial02 = 4,
+  Partial20 = 5;
 
-reg [1:0] inputState_d;
-reg [1:0] inputState_q;
+reg [2:0] inputState_d;
+reg [2:0] inputState_q;
 
 // Specify the output control commands.
 parameter [1:0]
@@ -140,16 +142,36 @@ begin
       inputState_d = Partial01;
       outputCmdP1_d = OutputShiftUpdate;
       partialOpA_d = operandAData_q [16:0];
-      partialOpB_d = {2'b0, operandBData_q [31:17]};
+      partialOpB_d = {operandBData_q [31],
+        operandBData_q [31], operandBData_q [31:17]};
     end
 
     // Calculate partial product 0,1.
     Partial01 :
     begin
+      inputState_d = Partial02;
+      outputCmdP1_d = OutputUpdate;
+      partialOpA_d = {operandAData_q [31],
+        operandAData_q [31], operandAData_q [31:17]};
+      partialOpB_d = operandBData_q[16:0];
+    end
+
+    // Calcaulte partial product 0,2.
+    Partial02:
+    begin
+      inputState_d = Partial20;
+      outputCmdP1_d = OutputShiftUpdate;
+      partialOpA_d = (operandAData_q [31] == 1'b0) ? 17'd0 : ~17'd0;
+      partialOpB_d = operandBData_q[16:0];
+    end
+
+    // Calcaulte partial product 2,0.
+    Partial20:
+    begin
       inputState_d = Partial11;
       outputCmdP1_d = OutputUpdate;
-      partialOpA_d = {2'b0, operandAData_q [31:17]};
-      partialOpB_d = operandBData_q[16:0];
+      partialOpA_d = operandAData_q[16:0];
+      partialOpB_d = (operandBData_q [31] == 1'b0) ? 17'd0 : ~17'd0;
     end
 
     // Calculate partial product 1,1.
@@ -158,8 +180,10 @@ begin
       inputState_d = Partial00Idle;
       outputCmdP1_d = OutputDone;
       inputBlocked = 1'b0;
-      partialOpA_d = {2'b0, operandAData_q [31:17]};
-      partialOpB_d = {2'b0, operandBData_q [31:17]};
+      partialOpA_d = {operandAData_q [31],
+        operandAData_q [31], operandAData_q [31:17]};
+      partialOpB_d = {operandBData_q [31],
+        operandBData_q [31], operandBData_q [31:17]};
     end
 
     // From the idle state, wait for new operands to become available.
@@ -241,15 +265,15 @@ begin
       resultDataHigh_d = 36'd32;
       resultDataLow_d = 17'd0;
     end
-    OutputUpdate :
-    begin
-      resultDataHigh_d = resultDataHigh_q;
-      resultDataLow_d = resultDataLow_q;
-    end
-    default :
+    OutputShiftUpdate :
     begin
       resultDataHigh_d = {17'd0, resultDataHigh_q [35:17]};
       resultDataLow_d = {resultDataHigh_q [16:0], resultDataLow_q [33:17]};
+    end
+    default :
+    begin
+      resultDataHigh_d = resultDataHigh_q;
+      resultDataLow_d = resultDataLow_q;
     end
   endcase
 
