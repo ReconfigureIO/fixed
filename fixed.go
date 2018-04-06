@@ -6,7 +6,7 @@
 // Package fixed implements fixed-point integer types for FPGAs
 package fixed
 
-// #include verilog/teak__fixed_x2e__x24_method__Int26__6__Mul.v
+// #include verilog/teak__github_x2e_com_x2f_ReconfigureIO_x2f_fixed_x2e__x24_method__Int26__6__Mul.v
 
 type Int26_6 int32
 

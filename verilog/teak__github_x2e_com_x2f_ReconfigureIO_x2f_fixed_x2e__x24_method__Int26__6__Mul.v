@@ -13,7 +13,7 @@
 
 `timescale 1ns/1ps
 
-module teak__fixed_x2e__x24_method__Int26__6__Mul
+module teak__github_x2e_com_x2f_ReconfigureIO_x2f_fixed_x2e__x24_method__Int26__6__Mul
   (goValid, goStop, doneValid, doneStop, operandsReady, operandsData,
   operandsStop, resultReady, resultData, resultStop, clk, srst);
 
